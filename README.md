@@ -8,4 +8,3 @@
 - some useful remap keys
 
 - clean appearance and neat performance
-
