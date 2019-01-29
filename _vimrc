@@ -3,21 +3,99 @@
 " builted: 2018-07-16
 " ===================================
 "
+
+set nocompatible                                " be iMproved
+
+" ALWAYS PUT PLUGINS FIRST PLACE
+" TO ADVOID SOME SILLY MISTAKES.
 " #############################
-"  Part-I: <Leader> relative
+"  Part-I:  Plugins
+" #############################
+" ----------------------------
+" " Vundle for plugins management
+" ----------------------------
+filetype off                                    " required
+
+set rtp+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
+" set rtp+= ~/vimfiles/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path and call
+" vundle#begin('~/some/path/here')
+" NOTE: all the Plugins which is managed
+" by Vundle must lie between
+" vundle#begin() and vundle#end
+    
+    "-------------------=== Vundle itself ===-------------
+    Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
+
+    "-------------------=== Code/Project navigation ===-------------
+    " Plugin 'scrooloose/nerdtree'                " Project and file navigation
+    Plugin 'majutsushi/tagbar'                  " Class/module browser
+    Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
+    Plugin 'nathanaelkane/vim-indent-guides'    " indent guides visulized
+    Plugin 'kshenoy/vim-signature'              " bookmark etc
+    Plugin 'easymotion/vim-easymotion'
+
+    "-------------------=== Other ===-------------------------------
+    Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
+    Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
+    Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
+    Plugin 'flazz/vim-colorschemes'             " Colorschemes
+    Plugin 'altercation/vim-colors-solarized'   " solarized 
+    Plugin 'jnurmine/Zenburn'
+    " Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
+    " Plugin 'rosenfeld/conque-term'              " Consoles as buffers
+    " Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
+
+    "-------------------=== Snippets support ===--------------------
+    " Plugin 'garbas/vim-snipmate'                " Snippets manager
+    " Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
+    " Plugin 'tomtom/tlib_vim'                    " dependencies #2
+    " Plugin 'SirVer/ultisnips'
+    " Plugin 'honza/vim-snippets'                 " snippets repo
+
+    "-------------------=== Languages support ===-------------------
+    Plugin 'supertab'
+    Plugin 'tpope/vim-commentary'                 " Comment stuff out
+    Plugin 'tpope/vim-fugitive'
+    " Plugin 'Rykka/riv.vim'                      " ReStructuredText plugin
+    " Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
+    " Plugin 'davidhalter/jedi-vim'
+
+    "-------------------=== Code checking= ==-----------------------------
+    Plugin 'python-mode/python-mode'
+    " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
+    Plugin 'w0rp/ale'
+
+    " local installation using the ['file://'+'absolute path'] protocol
+
+    " other plugins
+    " =============
+    " Plugin 'altercation/vim-colors-solarized'
+    " Plugin 'itchyny/lightline.vim'
+    " Plugin 'octol/vim-cpp-enhanced-highlight'
+    " Plugin 'suan/vim-instant-markdown'
+    " Plugin 'derekwyatt/vim-fswitch'
+call vundle#end()            " required
+filetype on
+filetype plugin on
+filetype plugin indent on    " required
+
+
+
+" #############################
+"  Part-II: <Leader> relative
 " #############################
 let mapleader=","		" leader set to be the comma
 " -----------------------------------
 " groups of <leader> + ?  | Short Cut
 " -----------------------------------
-" $MYVIMRC == ~/_vimrc<cr>, True.
-" shotcut for source ~/_vimrc
-
 
 " source vimrc 
 nnoremap <leader><leader>s :source ~/_vimrc<cr>
 " shotcut for edit ~/_vimrc
-nnoremap <leader>ev :split $MYVIMRC<cr>
+" $MYVIMRC == ~/_vimrc<cr>, True.
+nnoremap <leader>ev :vs $MYVIMRC<cr>
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
@@ -41,14 +119,10 @@ nnoremap <leader>tc :tabclose<cr>
 nnoremap <leader>tm :tabmove<cr>
 nnoremap <leader>tl :tablast<cr>
 
-" quick select buffer
+" quick select buffer and delete it
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
-" Ctrl + j,k,l,h to move around the panes
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <leader>bd :bd<cr>
 " turn off highlights
 nnoremap <leader><space> :nohlsearch<cr>
 
@@ -64,11 +138,8 @@ nmap W- :vertical resize -3<cr>
 "
 "
 " #############################
-"  Part-II:  Set vim
+"  Part-III:  Set vim
 " #############################
-
-set nocompatible              " be improved, also required for Vundle
-
 " enable syntax highlight
 syntax enable
 " allow variable syntax highlight approches instead of the default
@@ -81,6 +152,11 @@ set backspace=indent,eol,start
 " Split windows manners
 set splitbelow
 set splitright
+" Ctrl + j,k,l,h to move around the panes
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 " Searching
 set incsearch
 set hlsearch
@@ -92,13 +168,12 @@ set ruler
 set cursorline
 set cursorcolumn
 set number relativenumber
-set cursorline
 set showcmd
 set wildmenu
 set showmatch
 set noshowmode
-" always keep cursor away 3 lines from the bottom
-set scrolloff=3
+" always keep cursor away 5 lines from the bottom
+set scrolloff=7
 set sidescrolloff=3
 " do not wrap the code
 set nowrap
@@ -116,7 +191,7 @@ set shiftwidth=4
 set autoindent
 
 " #############################
-"  Part-III: colorcolumn groups
+"  Part-IV: colorcolumn groups
 " #############################
 " gui appearance && colorschemes
 " Note: syntax enable is needed
@@ -125,15 +200,14 @@ syntax enable
 set background=dark
 if has('gui_running')
     " GUI setting
-    colorscheme solarized
-    let g:solarized_termcolors=256
-    let g:solarized_contrast="normal"
+    " colorscheme solarized
+    " let g:solarized_termcolors=256
+    " let g:solarized_contrast="normal"
     " call togglebg#map("<F5>")
-    " colorscheme zenburn                       " backup colorscheme
-    set guifont=Lucida_Console:h9
+    colorscheme zenburn                       " backup colorscheme
+    set guifont=Lucida_Console:h10
     " set guifont=Lucida_Console:h10            " some other fonts
-
-    " au GUIEnter * simalt ~x                   " full screen when initiate gvim
+    au GUIEnter * simalt ~x                   " full screen when initiate gvim
     " gui no toolbar
     set guioptions-=T
     set guioptions-=m
@@ -145,80 +219,79 @@ else
     " enable syntax highlight
     " syntax enable
     " set background=dark
-    colorscheme solarized
-    let g:solarized_termcolors=16
-    " Bundle 'jnurmine/Zenburn'
+    colorscheme solarized8_dark_low
+    " let g:solarized_termcolors=16
     " colorscheme zenburn
 endif
 
+
+
 " #############################
-"  Part-IV:  Plugins
+" Part-V: plugin setting groups
 " #############################
+
 " ----------------------------
-" " Vundle for plugins
+" jedi-vim settings
 " ----------------------------
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set rtp+=$HOME/.vim/bundle/Vundle.vim/  " ~/vimfiles/bundle/Vundle.vim
-call vundle#begin()  " '$HOME/.vim/bundle/'
-    " alternatively, pass a path where Vundle should install plugins
-    " call vundle#begin('~/some/path/here')
-    " NOTE: all the Plugins which is managed by Vundle must lie between
-    " vundle#begin() and vundle#end
-    
-    " let Vundle manage Vundle, required
-    Plugin 'VundleVim/Vundle.vim'
+let g:jedi#goto_command = "<leader>d"
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<S-f>"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
 
-    "-------------------=== Code/Project navigation ===-------------
-    " Plugin 'scrooloose/nerdtree'                " Project and file navigation
-    Plugin 'majutsushi/tagbar'                  " Class/module browser
-    Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
-    Plugin 'nathanaelkane/vim-indent-guides'    " indent guides visulized
-    Plugin 'kshenoy/vim-signature'              " bookmark etc
-    Plugin 'easymotion/vim-easymotion'
+" let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#use_tabs_not_buffers = 1
 
-    "-------------------=== Other ===-------------------------------
-    Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
-    Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
-    Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
-    Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
-    Plugin 'rosenfeld/conque-term'              " Consoles as buffers
-    Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
-    Plugin 'flazz/vim-colorschemes'             " Colorschemes
-    Plugin 'altercation/vim-colors-solarized'   " solarized 
-    Plugin 'jnurmine/Zenburn'
+" ----------------------------
+" ctrlp settings
+" ----------------------------
+let g:ctrlp_map='<C-p>'                          " Invoke the Ctrlp in Normal mode
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_by_filename = 1                   " <C-d> toggle on/off inside
+" let g:ctrlp_tabpage_position = 'ac'           " Put the new tab page 'a'fter 'c'urrent tab page
+" let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+let g:ctrlp_max_files = 10000
+" MRU mode options:~
+let g:ctrlp_mruf_max = 250
+let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*' " Windows
+let g:ctrlp_mruf_include = '\.py$\|\.rb$'
+" Set this to 1 to show only MRU files in the current working directory: >
+let g:ctrlp_mruf_relative = 0
+" Note: you can use a custom mapping to toggle this option inside the prompt: >
+let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['C-<F2>'] }
+let g:ctrlp_mruf_case_sensitive = 1           " Avoid duplicate MRU entries
 
-    "-------------------=== Snippets support ===--------------------
-    Plugin 'garbas/vim-snipmate'                " Snippets manager
-    Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
-    Plugin 'tomtom/tlib_vim'                    " dependencies #2
-    Plugin 'honza/vim-snippets'                 " snippets repo
+" dirs/filetypes should be ignore
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
-    "-------------------=== Languages support ===-------------------
-    Plugin 'SuperTab'
-    Plugin 'tpope/vim-commentary'               " Comment stuff out
-    Plugin 'tpope/vim-fugitive'
-    " Plugin 'mitsuhiko/vim-sparkup'              " Sparkup(XML/jinja/htlm-django/etc.) support
-    " Plugin 'Rykka/riv.vim'                      " ReStructuredText plugin
-    " Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
+" remap commands
+nnoremap <C-S>b :CtrlPBuffer<cr>              " only to find the buffers
+nnoremap <C_S>m :CtrlPMRU<cr>                 " only to Most-Reccently-Used files
 
-    "-------------------=== Python  ===-----------------------------
-    Plugin 'python-mode-klen'                   " Python mode (docs, refactor, lints...)
-    Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
 
-    " other plugins
-    " =============
-    " Plugin 'altercation/vim-colors-solarized'
-    " Plugin 'w0rp/ale'
-    " Plugin 'itchyny/lightline.vim'
-    " Plugin 'octol/vim-cpp-enhanced-highlight'
-    " Plugin 'suan/vim-instant-markdown'
-    " Plugin 'derekwyatt/vim-fswitch'
-call vundle#end()            " required
-filetype on
-filetype plugin on
-filetype plugin indent on    " required
 
+" ----------------------------
+" tagbar settings
+" ----------------------------
+let g:tagbar_ctags_bin='d:/ctags58/ctags.exe'
+let g:tagbar_left=1                           " fix to window left
+let g:tagbar_width=30                         " 20 characters
+let g:tagbar_autofocus=1
+let g:tagbar_sort=0
+let g:tagbar_show_linenumbers = 2     " show relative nu
+let g:tagbar_expand = 1
+
+nnoremap <silent> <F9> :TagbarToggle<CR>
+" auto open and focus on tagbar when open the .py files;
+" and close with .py buffer gone.
+autocmd BufEnter *.py :call tagbar#autoopen(0)
+autocmd BufWinLeave *.py :TagbarClose
 
 " ----------------------------
 " EasyMotion settings
@@ -242,57 +315,124 @@ nmap <silent> <leader>i <Plug>IndentGuidesToggle
 " airline settings
 " ----------------------------
 let g:airline_theme='badwolf'
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#formatter='unique_tail'
 let g:airline_powerline_fonts=1
+let g:airline#extensions#ale#enabled=1
+let g:airline#extensions#tabline#formatter='unique_tail'
 
 " ----------------------------
-" tagbar settings
+" ale settings
 " ----------------------------
-" set tags=
-let g:tagbar_ctags_bin='d:/ctags58/ctags.exe'
-let g:tagbar_autofocus=0
-let g:tagbar_width=20
-let g:tagbar_sort=0
-autocmd BufEnter *.py :call tagbar#autoopen(0)
-autocmd BufWinLeave *.py :TagbarClose
+"
+let g:ale_enabled = 1
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+
+let g:ale_linters_explicit = 1
+let g:ale_linters = {
+            \   'c++': ['clang'],
+            \   'c': ['clang'],
+            \   'python': ['pyflakes','flake8','pycodestyle', 'pydocstyle']
+            \}
+" let g:ale_python_pyflakes_executable = 1
+
+let g:ale_fixers = {
+            \   'python': ['autopep8', 'trim_whitespace', 'yapf']
+            \}
+
+let g:ale_set_signs = 1
+let g:ale_sign_column_always = 1
+let g:ale_echo_cursor = 1
+
+let g:ale_open_list = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+" This can be useful if you are combining ALE with
+" some other plugin which sets quickfix errors, etc.
+let g:ale_keep_list_window_open = 0
+" Show 10 lines of errors (default: 10)
+let g:ale_list_window_size = 10
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
 
 " ----------------------------
-" snipmate settings
+" snip settings
 " ----------------------------
-let g:snippets_dir='~/.vim/bundle/vim-snippets/snippets'
-
-" ----------------------------
-" python-mode settings
-" ----------------------------
-" python executables for different plugins
+" let g:snippets_dir='~/.vim/bundle/vim-snippets/snippets'
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" let g:UltiSinpsUsePythonVersion = 2
+" let g:UltiSnipsExpandTrigger="<Tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" " ----------------------------
+" " python-mode settings
+" " ----------------------------
+let g:pymode = 0
+" " python executables for different plugins
 let g:pymode_python='python'
-let g:syntastic_python_python_exec='python'
-
-" rope
+let g:pymode_python_exrc='python3'
+" " trim unused white space
+let g:pymode_trim_whitespaces = 1
+" " python option (not have to be ture)
+" let g:pymode_options = 0
+" let g:pymode_options_max_line_length = 79
+" " quickfix windows
+" let g:pymode_quickfix_minheight = 3
+" let g:pymode_quickfix_maxheight = 10
+" " PEP8 indent
+" let g:pymode_indent = 1
+" let g:pymode_folding = 0
+" " documentation
+" let g:pymode_doc=0
+" let g:pymode_doc_bind='K'
+" " virtualenv
+" let g:pymode_virtualenv=1
+" " let g:pymode_virtualenv_path = $VIRTUAL_ENV
+" " code running
+" let g:pymode_run=1
+" let g:pymode_run_bind='<leader>r'
+" " breakpoints
+let g:pymode_breakpoint=0
+" " let g:pymode_breakpoint_key='<leader>b'
+" 
+" " pymode code checking
+" " --------------------
+" " Commands:
+" " :PymodeLint* -- Check code in current buffer
+" " :PymodeLintToggle* -- Toggle code checking
+" " :PymodeLintAuto* -- Fix PEP8 errors in current buffer automatically
+" 
+let g:pymode_lint=0                                         " Turn on code checking
+" let g:pymode_lint_on_write = 1                              " check, iff saved && modified current buffer
+" let g:pymode_lint_message = 1
+" let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
+" let g:pymode_lint_sort = ['E', 'I', 'C']
+" let g:pymode_lint_cwindow = 1
+" let g:pymode_lint_signs = 1
+" let g:pymode_lint_todo_symbol = 'WW'
+" let g:pymode_lint_comment_symbol = 'CC'
+" let g:pymode_lint_visual_symbol = 'RR'
+" let g:pymode_lint_error_symbol = 'EE'
+" let g:pymode_lint_info_symbol = 'II'
+" let g:pymode_lint_pyflakes_symbol = 'FF'
+" 
+" " rope
 let g:pymode_rope=0
-let g:pymode_rope_completion=0
-let g:pymode_rope_complete_on_dot=0
-let g:pymode_rope_auto_project=0
-let g:pymode_rope_enable_autoimport=0
-let g:pymode_rope_autoimport_generate=0
-let g:pymode_rope_guess_project=0
-
-" documentation
-let g:pymode_doc=0
-" let g:pymode_doc_bind='K'  " use the default <C-]> and come back with <C-o>
-
-" lints
-let g:pymode_lint=0
-
-" virtualenv
-let g:pymode_virtualenv=1
-
-" breakpoints
-let g:pymode_breakpoint=1
-let g:pymode_breakpoint_key='<leader><leader>b'
-
-" syntax highlight
+" " let g:pymode_rope_completion=0
+" " let g:pymode_rope_complete_on_dot=0
+" " let g:pymode_rope_auto_project=0
+" " let g:pymode_rope_enable_autoimport=0
+" " let g:pymode_rope_autoimport_generate=0
+" " let g:pymode_rope_guess_project=0
+" 
+" 
+" " syntax highlight
 let g:pymode_syntax=1
 let g:pymode_syntax_slow_sync=1
 let g:pymode_syntax_all=1
@@ -311,7 +451,48 @@ let g:pymode_syntax_builtin_objs=g:pymode_syntax_all
 let g:pymode_syntax_builtin_types=g:pymode_syntax_all
 let g:pymode_syntax_highlight_exceptions=g:pymode_syntax_all
 let g:pymode_syntax_docstrings=g:pymode_syntax_all
+" 
+" " ====  ============================
+" " Key   Command
+" " ====  ============================
+" " [[    Jump to previous class or function (normal, visual, operator modes)
+" " ]]    Jump to next class or function  (normal, visual, operator modes)
+" " [M    Jump to previous class or method (normal, visual, operator modes)
+" " ]M    Jump to next class or method (normal, visual, operator modes)
+" " aC    Select a class. Ex: vaC, daC, yaC, caC (normal, operator modes)
+" " iC    Select inner class. Ex: viC, diC, yiC, ciC (normal, operator modes)
+" " aM    Select a function or method. Ex: vaM, daM, yaM, caM (normal, operator modes)
+" " iM    Select inner function or method. Ex: viM, diM, yiM, ciM (normal, operator modes)
+" " ====  ============================
+" " 
+" " Enable pymode-motion
+" let g:pymode_motion = 1
+"                                  
+" ----------------------------   
+" Syntastic settings             
+" NOTE: this plugin is similar
+" with the pymode. I cannot
+" tell the difference between
+" their performent. Jan-25, 19
+" ----------------------------
+" 
+" let g:syntastic_always_populate_loc_list=1
+" let g:syntastic_auto_loc_list=1
+" let g:syntastic_enable_signs=1
+" let g:syntastic_check_on_wq=1
+" let g:syntastic_aggregate_errors=1
+" let g:syntastic_loc_list_height=10
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_error_symbol=">>"
+" let g:syntastic_style_error_symbol="S>"
+" let g:syntastic_warning_symbol="->"
+" let g:syntastic_style_warning_symbol="->"
+" let g:syntastic_python_checkers=['pyflakes', 'pydocstyle', 'python']
 
+
+" ----------------------------   
+" autocmd groups
+" ----------------------------
 " highlight 'long' lines (>= 79 symbols) in python files
 augroup vimrc_autocmds
     autocmd!
@@ -319,35 +500,8 @@ augroup vimrc_autocmds
     autocmd FileType python,rst,c,cpp match Excess /\%80v.*/
     autocmd FileType python,rst,c,cpp set nowrap
     autocmd FileType python,rst,c,cpp set colorcolumn=79
-    " auto begin in newline when exceed 79 chars
+    " auto begin in newline when exceed 79 chars when program in python
     autocmd FileType python setlocal textwidth=79 formatoptions+=t
     " comment leader for different filetypes
-    autocmd FileType sh,python let b:comment_leader = '# '
+   autocmd FileType sh,python let b:comment_leader = '# '
 augroup END
-
-" code folding
-let g:pymode_folding=0
-
-" pep8 indents
-let g:pymode_indent=1
-
-" code running
-let g:pymode_run=1
-let g:pymode_run_bind='<leader>r'
-                                 s to "S>"
-" ----------------------------    to ">>"
-" Syntastic settings             aults to "S>"
-" ----------------------------
-" 
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_enable_signs=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_aggregate_errors=1
-let g:syntastic_loc_list_height=10
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_error_symbol=">>"
-let g:syntastic_style_error_symbol="S>"
-let g:syntastic_warning_symbol="->"
-let g:syntastic_style_warning_symbol="->"
-let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
