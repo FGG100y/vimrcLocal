@@ -45,7 +45,6 @@ call vundle#begin()
     Plugin 'jnurmine/Zenburn'
     " Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
     " Plugin 'rosenfeld/conque-term'              " Consoles as buffers
-    " Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
 
     "-------------------=== Snippets support ===--------------------
     " Plugin 'garbas/vim-snipmate'                " Snippets manager
@@ -58,6 +57,7 @@ call vundle#begin()
     Plugin 'supertab'
     Plugin 'tpope/vim-commentary'                 " Comment stuff out
     Plugin 'tpope/vim-fugitive'
+    Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     " Plugin 'Rykka/riv.vim'                      " ReStructuredText plugin
     " Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
     " Plugin 'davidhalter/jedi-vim'
@@ -114,10 +114,10 @@ vnoremap <leader>c "+y
 nnoremap <leader>] :tabn<cr>
 nnoremap <leader>[ :tabp<cr>
 nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>tc :tabclose<cr>
-nnoremap <leader>tm :tabmove<cr>
-nnoremap <leader>tl :tablast<cr>
+" nnoremap <leader>to :tabonly<cr>
+" nnoremap <leader>tm :tabmove<cr>
+" nnoremap <leader>tl :tablast<cr>
 
 " quick select buffer and delete it
 nnoremap <leader>bn :bnext<cr>
@@ -233,16 +233,16 @@ endif
 " ----------------------------
 " jedi-vim settings
 " ----------------------------
-let g:jedi#goto_command = "<leader>d"
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<S-f>"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<leader>r"
-
-" let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#use_tabs_not_buffers = 1
+" let g:jedi#goto_command = "<leader>d"
+" let g:jedi#goto_assignments_command = "<leader>g"
+" let g:jedi#goto_definitions_command = "<S-f>"
+" let g:jedi#documentation_command = "K"
+" let g:jedi#usages_command = "<leader>n"
+" let g:jedi#completions_command = "<C-Space>"
+" let g:jedi#rename_command = "<leader>r"
+" 
+" " let g:jedi#use_splits_not_buffers = "left"
+" let g:jedi#use_tabs_not_buffers = 1
 
 " ----------------------------
 " ctrlp settings
@@ -271,8 +271,8 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 " remap commands
-nnoremap <C-S>b :CtrlPBuffer<cr>              " only to find the buffers
-nnoremap <C_S>m :CtrlPMRU<cr>                 " only to Most-Reccently-Used files
+nnoremap <C-b> :CtrlPBuffer<cr>              " only to find the buffers
+nnoremap <C-m> :CtrlPMRU<cr>                 " only to Most-Reccently-Used files
 
 
 
