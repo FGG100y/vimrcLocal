@@ -2,7 +2,9 @@
 " fanmh's vimrc (Windows Evns)
 " builted: 2018-07-16
 " ===================================
-"
+" TODO:
+"     按功能整理分区，比如：1.插件列表 2.代码编写增强 3.代码检查增强
+"     4.代码浏览增强 5. ...
 
 set nocompatible                                " be iMproved
 
@@ -11,13 +13,12 @@ set nocompatible                                " be iMproved
 " #############################
 "  Part-I:  Plugins
 " #############################
-" ----------------------------
-" " Vundle for plugins management
-" ----------------------------
+" -----------------------------
+" Vundle for plugins management
+" -----------------------------
 filetype off                                    " required
 
 set rtp+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
-" set rtp+= ~/vimfiles/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path and call
 " vundle#begin('~/some/path/here')
@@ -35,7 +36,7 @@ call vundle#begin()
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     Plugin 'easymotion/vim-easymotion'
     Plugin 'Vimjas/vim-python-pep8-indent'
-    " Plugin 'Yggdroot/LeaderF'                  	" locating files,buffers,mrus,ctags,gtags...
+    " Plugin 'Yggdroot/LeaderF'                   " locating files,buffers,mrus,ctags,gtags...
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
 
     "-------------------=== Other ===-------------------------------
@@ -67,7 +68,6 @@ call vundle#begin()
     Plugin 'hdima/Python-Syntax' 		  " syntax highlight for python
     Plugin 'davidhalter/jedi-vim'
     " Plugin 'Valloric/YouCompleteMe'               " Autocomplete plugin
-    " Plugin 'Rykka/riv.vim'                      " ReStructuredText plugin
 
     "-------------------=== Code checking= ==-----------------------------
     " Plugin 'python-mode/python-mode'
