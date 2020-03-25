@@ -1,10 +1,10 @@
 " ===================================
 " fanmh's vimrc (Windows Evns)
 " builted: 2018-07-16
+" last modified: 星期三 03-25 18:44:11 2020
 " ===================================
 " TODO:
-"     按功能整理分区，比如：1.插件列表 2.代码编写增强 3.代码检查增强
-"     4.代码浏览增强 5. ...
+"     clean up this mess.
 
 set nocompatible                                " be iMproved
 
@@ -36,6 +36,7 @@ call vundle#begin()
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     Plugin 'easymotion/vim-easymotion'
     Plugin 'Vimjas/vim-python-pep8-indent'
+    " Plugin 'easytags.vim'
     " Plugin 'Yggdroot/LeaderF'                   " locating files,buffers,mrus,ctags,gtags...
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
 
@@ -50,29 +51,32 @@ call vundle#begin()
     " Plugin 'rosenfeld/conque-term'              " Consoles as buffers
 
     "-------------------=== Snippets support ===--------------------
-    Plugin 'SirVer/ultisnips'
+    " Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'                 " snippets repo
     " Plugin 'garbas/vim-snipmate'                " Snippets manager
     " Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
     " Plugin 'tomtom/tlib_vim'                    " dependencies #2
 
     "-------------------=== Languages support ===-------------------
-    Plugin 'supertab'
     Plugin 'tpope/vim-commentary'                 " Comment stuff out
     Plugin 'tpope/vim-fugitive'
     Plugin 'tpope/vim-surround'                   " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'tpope/vim-repeat'                     " repeat the operatoins
     Plugin 'tpope/vim-abolish'                    " the Supercharge version of vim's %s
     Plugin 'tpope/vim-obsession'                  " mksession enhencement
+    Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'scrooloose/nerdcommenter' 		  " comment things out
     Plugin 'hdima/Python-Syntax' 		  " syntax highlight for python
     Plugin 'davidhalter/jedi-vim'
+    Plugin 'rust-lang/rust.vim'
+    Plugin 'racer-rust/vim-racer'
+    Plugin 'dense-analysis/ale'
+    " Plugin 'supertab'
     " Plugin 'Valloric/YouCompleteMe'               " Autocomplete plugin
 
     "-------------------=== Code checking= ==-----------------------------
     " Plugin 'python-mode/python-mode'
     " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
-    Plugin 'w0rp/ale'
 
     " other plugins
     " =============
@@ -102,39 +106,37 @@ let mapleader=","		" leader set to be the comma
 nnoremap <C-[> <Esc>
 
 " source vimrc
-nnoremap <leader><leader>s :source ~/_vimrc<cr> :echo "*** vimrc reloaded ***"<cr>
+" nnoremap <leader><leader>s :source ~/_vimrc<cr> :echo "*** vimrc reloaded ***"<cr>
 " shotcut for edit ~/_vimrc
 " $MYVIMRC == ~/_vimrc<cr>, True.
-nnoremap <leader>ev :tabnew <bar> :e $MYVIMRC<cr>
-nnoremap <leader>sv :sp $MYVIMRC<cr>
+nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
+nnoremap <space>v :sp $MYVIMRC<cr>
 " vertical split help
-nnoremap <leader>vh :vert help<cr>
+nnoremap <space>h :vert help<cr>
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
+nnoremap <space>w :Gwrite<cr>
+nnoremap <space>c :Gcommit<cr>
 nnoremap <leader>q :q<cr>
+" close quickfix window
+nnoremap <space>q :cclose<cr>
+nnoremap <space><space>q :lclose<cr>
 
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
-nmap <leader>p "+gp
+nmap <space>p "+gp
 " yank to sys clipboard only in Visual Mode
-vnoremap <leader>y "+y
+vnoremap <space>y "+y
 
 " Ctrl + j,k,l,h to move around the panes
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-" or consider the <leader> combinations
-"nnoremap <leader>jw <C-W>j
-"nnoremap <leader>kw <C-W>k
-"nnoremap <leader>lw <C-W>l
-"nnoremap <leader>hw <C-W>h
-" looping the panes
-nnoremap nw <C-W><C-W>
 
 " shotcuts to new tabs and moving around
-nnoremap <leader>] :tabn<cr>
-nnoremap <leader>[ :tabp<cr>
+nnoremap <space>] :tabn<cr>
+nnoremap <space>[ :tabp<cr>
 " nnoremap <leader>tn :tabnew<cr>
 " nnoremap <leader>tc :tabclose<cr>
 " nnoremap <leader>to :tabonly<cr>
@@ -153,16 +155,24 @@ nnoremap <leader><space> :nohlsearch<cr>
 " trim all the ending whitespace with confirmation
 nnoremap <leader><leader>t :%s/\s\+$//
 
+" toggle tagbar
+nnoremap <space>tb :TagbarToggle<CR>
+nnoremap <space>j :TagbarOpen fj<CR>
+
 " generate tag file, so we can Ctrl-] to goto definitions
 nnoremap <f9> :!ctags -R<cr>
 
 " windows/panes resize
-nmap <space>w :vertical resize +3<cr>
-nmap W- :vertical resize -3<cr>
-nmap <s-w> :resize +5<cr>
+nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+" nmap <Space>k :vertical resize +3<cr>
+" nmap <Space>l :resize +5<cr>
 
 " Explore the file in current path
-nnoremap EX :Explore<cr>
+" nnoremap EX :Explore<cr>
+
+" back to normal mode
+inoremap jj <Esc>
 
 " python pdb in ipython
 iab idb __import__('pdb').set_trace()
@@ -173,8 +183,8 @@ iab dts <c-r>=strftime("%A %m-%d %T %Y")<cr>
 iab stdlib #include "../std_lib_facilities.h"<cr>
 
 " python shebang
-iab #! #!/usr/bin/env python<cr># encoding: utf-8<cr><cr>
-iab ifmain if __name__ == "__main__":
+iab #! #!/usr/bin/env python<cr># encoding: utf-8<cr>
+" iab ifmain if __name__ == "__main__":
 "
 "
 " #############################
@@ -239,7 +249,7 @@ if has('gui_running')
     colorscheme zenburn                       " backup colorscheme
     set guifont=Lucida_Console:h9
     " set guifont=Lucida_Console:h10            " some other fonts
-    au GUIEnter * simalt ~x                   " full screen when initiate gvim
+    " au GUIEnter * simalt ~x                   " full screen when initiate gvim
     " gui no toolbar
     set guioptions-=T
     set guioptions-=m
@@ -247,22 +257,58 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=b
 else
-    " set background=light
-    " let g:solarized_contrast="normal"
-    " let g:solarized_termcolors=256
-    " colorscheme solarized
-    " call togglebg#map("<F5>")
-
     " solarized8: true-color enabled terminal
     " colorscheme solarized8_dark
-    colorscheme solarized8_dark_high
+    " colorscheme solarized8_dark_high
     " colorscheme solarized8_dark_flat
+    colorscheme zenburn
 endif
 
+" gvim & gitgutter error headling
+" if has("gui_running")
+"     " set shell=/usr/bin/bash
+"     " set shell=cmd solved the E484 problem but gitgutter faided
+"     set shell=cmd
+"     set shellcmdflag=/c
+"     set shellxquote=(
+" endif
 
 " #############################
 " Part-V: plugin setting groups
 " #############################
+" ----------------------------
+" racer
+" ----------------------------
+set hidden
+let g:racer_cmd = "$HOME/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
+
+" ----------------------------
+" rust-vim
+" ----------------------------
+let g:rustfmt_autosave = 1
+let g:rust_cargo_check_all_targets = 1
+let g:ale_rust_cargo_use_check = 1
+" ----------------------------
+" easytags
+" ----------------------------
+" let g:easytags_cmd = "d:/ctags58/ctags.exe"
+" let g:easytags_python_enabled = 1
+
+" ----------------------------
+" gitgutter
+" ----------------------------
+let g:gitgutter_git_executable = 'd:/Git/bin/git.exe'
+" let g:gitgutter_max_signs = 500  " default value
+let g:gitgutter_max_signs = 100  " default value
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+" Use the GitGutterFold command to fold all unchanged lines, leaving just the
+" hunks visible. Use zr to unfold 3 lines of context above and below a hunk.
+" Execute GitGutterFold a second time to restore the previous view.
+" set foldtext=gitgutter#fold#foldtext()
+
 " ----------------------------
 " Jedi-vim
 " ----------------------------
@@ -276,12 +322,12 @@ let g:jedi#completions_command = "<C-N>"
 "1" to pop-up in the buffer;
 "2" to vim's command line aligned with func-call
 let g:jedi#show_call_signatures = "2"
-let g:jedi#goto_command = "<leader>d"
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "K"
+let g:jedi#goto_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>j"
+" let g:jedi#goto_assignments_command = "<space>="
 let g:jedi#usages_command = "<leader>n"
 let g:jedi#rename_command = "<leader>r"
+let g:jedi#documentation_command = "K"
 
 " ----------------------------
 " Python-Syntax
@@ -389,15 +435,15 @@ nnoremap <C-m> :CtrlPMRU<cr>                 " only to Most-Reccently-Used files
 " tagbar settings
 " ----------------------------
 let g:tagbar_ctags_bin='d://ctags58//ctags.exe'
+let g:tagbar_autofocus=1
+
 " let g:tagbar_left=1                           " fix to window left
 let g:tagbar_width=26                         " 20 characters
-" let g:tagbar_autofocus=1
 let g:tagbar_sort=0
 let g:tagbar_show_linenumbers = 2     " show relative nu
 let g:tagbar_expand = 1
 let g:tagbar_compact=1 			" do not show the "help" msg
 "
-nnoremap <leader>tg :TagbarToggle<CR>
 " " auto open and focus on tagbar when open the .py files;
 " " and close with .py buffer gone.
 " autocmd BufEnter *.py :call tagbar#autoopen(0)
@@ -423,11 +469,20 @@ map <leader>F <Plug>(easymotion-F)
 
 " ----------------------------
 " airline settings
-" ----------------------------
+let g:airline#extensions#default#section_truncate_width = {
+      \ 'b': 40,
+      \ 'x': 60,
+      \ 'y': 40,
+      \ 'z': 15,
+      \ 'warning': 79,
+      \ 'error': 79,
+      \ }
+
 let g:airline#extensions#default#layout = [
 \ [ 'a', 'b', 'c' ],
 \ [ 'x', 'y', 'z', 'error', 'warning' ]
 \ ]
+let g:airline_skip_empty_sections = 1
 
 " let g:airline_theme='simple'
 " git brachs etc
@@ -437,7 +492,7 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 10
-let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+" let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mixed-indent-file', 'conflicts' ]
 let g:airline#extensions#ale#enabled=1
@@ -452,50 +507,65 @@ let g:airline_symbols_ascii = 1
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
+let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
+" vim-gitgutter
+" enable/disable showing a summary of changed hunks under source control. >
+let g:airline#extensions#hunks#enabled = 1
+" " enable/disable showing only non-zero hunks. >
+let g:airline#extensions#hunks#non_zero_only = 1
+" " set hunk count symbols. >
+let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
 
 " ----------------------------
 " ale settings
 " ----------------------------
-let g:ale_enabled = 1
+" let g:ale_enabled = 1
+" let g:ale_lint_on_filetype_changed = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+" " You can disable this option too
+" " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
 let g:ale_echo_cursor = 1
-
 let g:ale_open_list = 1
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
-" This can be useful if you are combining ALE with
-" some other plugin which sets quickfix errors, etc.
+" " This can be useful if you are combining ALE with
+" " some other plugin which sets quickfix errors, etc.
 let g:ale_keep_list_window_open = 0
-" Show 10 lines of errors (default: 10)
-let g:ale_list_window_size = 10
-
+" " Show 10 lines of errors (default: 10)
+" let g:ale_list_window_size = 10
+"
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-" nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+"
+" " nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
 
-" ale for python
+" " ale for python/rust
 let g:ale_linters_explicit = 1
-let g:ale_linters = {'python': ['flake8','pyflakes']}
-let g:ale_python_flake8_executable = 'python3'
-let g:ale_python_flake8_auto_pipenv = 1
+" " let g:ale_linters = {'python': ['flake8']}
+let g:ale_linters = {
+		    \   'python': ['flake8'],
+		    \   'rust': ['cargo', 'rustc', 'rls']
+		    \}
+
+" let g:ale_python_flake8_executable = 'python3'
+" let g:ale_python_flake8_auto_pipenv = 1
 
 " ----------------------------
 " snip settings
 " ----------------------------
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSinpsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger="<leader><Tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSinpsUsePythonVersion = 3
+" let g:UltiSnipsExpandTrigger="<leader><Tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 
 " ----------------------------
@@ -525,4 +595,13 @@ augroup vimrc_autocmds
     autocmd FileType python setlocal completeopt-=preview
     " make changes of .vimrc working when save it
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
+augroup Racer
+    autocmd!
+    autocmd FileType rust nmap <buffer> <leader>g  <Plug>(rust-def)
+    autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+    autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+    autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+    autocmd FileType rust nmap <buffer> <leader>k  <Plug>(rust-doc)
 augroup END
