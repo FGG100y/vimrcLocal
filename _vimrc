@@ -1,10 +1,9 @@
 " ===================================
 " fanmh's vimrc (Windows Evns)
 " builted: 2018-07-16
-" last modified: 星期三 03-25 18:44:11 2020
 " ===================================
 " TODO:
-"     clean up this mess.
+"     clean up.
 
 set nocompatible                                " be iMproved
 
@@ -51,7 +50,7 @@ call vundle#begin()
     " Plugin 'rosenfeld/conque-term'              " Consoles as buffers
 
     "-------------------=== Snippets support ===--------------------
-    " Plugin 'SirVer/ultisnips'
+    Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'                 " snippets repo
     " Plugin 'garbas/vim-snipmate'                " Snippets manager
     " Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
@@ -71,6 +70,7 @@ call vundle#begin()
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
     Plugin 'dense-analysis/ale'
+    Plugin 'fatih/vim-go'
     " Plugin 'supertab'
     " Plugin 'Valloric/YouCompleteMe'               " Autocomplete plugin
 
@@ -148,7 +148,7 @@ nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>bd :bd<cr>
 " turn off highlights
-nnoremap <leader><space> :nohlsearch<cr>
+nnoremap <space>n :nohlsearch<cr>
 
 " trim all the ending whitespace
 " nnoremap <leader><leader>t :%s/\s\+$//g<cr>
@@ -265,18 +265,23 @@ else
 endif
 
 " gvim & gitgutter error headling
-" if has("gui_running")
-"     " set shell=/usr/bin/bash
-"     " set shell=cmd solved the E484 problem but gitgutter faided
-"     set shell=cmd
-"     set shellcmdflag=/c
-"     set shellxquote=(
-" endif
+if has("gui_running")
+    " set shell=/usr/bin/bash
+    " set shell=cmd solved the E484 problem but gitgutter faided
+    set shell=cmd
+    set shellcmdflag=/c
+    set shellxquote=(
+endif
 
 " #############################
 " Part-V: plugin setting groups
 " #############################
 " ----------------------------
+" vim-go
+" ----------------------------
+let g:go_bin_path="c:/Go/bin"
+let g:go_fmt_autosave = 1
+let g:go_mod_fmt_autosave = 0
 " racer
 " ----------------------------
 set hidden
@@ -287,7 +292,7 @@ let g:racer_insert_paren = 1
 " ----------------------------
 " rust-vim
 " ----------------------------
-let g:rustfmt_autosave = 1
+" let g:rustfmt_autosave = 1
 let g:rust_cargo_check_all_targets = 1
 let g:ale_rust_cargo_use_check = 1
 " ----------------------------
@@ -321,7 +326,7 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#completions_command = "<C-N>"
 "1" to pop-up in the buffer;
 "2" to vim's command line aligned with func-call
-let g:jedi#show_call_signatures = "2"
+let g:jedi#show_call_signatures = "0"
 let g:jedi#goto_command = "<leader>g"
 let g:jedi#goto_definitions_command = "<leader>j"
 " let g:jedi#goto_assignments_command = "<space>="
@@ -547,23 +552,27 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
 
 " " ale for python/rust
+let g:ale_python_flake8_auto_pipenv = 1
 let g:ale_linters_explicit = 1
-" " let g:ale_linters = {'python': ['flake8']}
 let g:ale_linters = {
 		    \   'python': ['flake8'],
-		    \   'rust': ['cargo', 'rustc', 'rls']
+		    \   'rust': ['cargo'],
+		    \	'go': ['gofmt']
 		    \}
-
 " let g:ale_python_flake8_executable = 'python3'
-" let g:ale_python_flake8_auto_pipenv = 1
-
+let g:ale_fix_on_save = 0
+let g:ale_fixers = {
+\   'python': ['yapf'],
+\   'go': ['gofmt']
+\}
+nmap <F8> <Plug>(ale_fix)
 " ----------------------------
 " snip settings
 " ----------------------------
 " let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " let g:UltiSinpsUsePythonVersion = 3
-" let g:UltiSnipsExpandTrigger="<leader><Tab>"
+let g:UltiSnipsExpandTrigger="<leader><Tab>"
 " let g:UltiSnipsJumpForwardTrigger="<c-j>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
@@ -572,15 +581,16 @@ let g:ale_linters = {
 " autocmd groups
 " ----------------------------
 augroup vimrc_autocmds
+    " autocmd!: Remove all autocommands for the current group to avoid repeation
     autocmd!
-    autocmd FileType python,sh,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,sh,c,cpp match Excess /\%80v.*/
-    autocmd FileType python,sh,c,cpp set nowrap
-    autocmd FileType python,sh,c,cpp set colorcolumn=79
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang set nowrap
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang set colorcolumn=79
     " auto begin in newline when exceed 79 chars
     autocmd FileType * setlocal textwidth=79 formatoptions+=t
-    autocmd FileType c,cpp setlocal comments-=:// comments+=f://
-    autocmd BufNewFile,BufRead *.py
+    autocmd FileType c,cpp,rust,rs,go,golang setlocal comments-=:// comments+=f://
+    autocmd BufNewFile,BufRead *.py,*.cpp,*.c,*.rs,*.go
         \ set tabstop=4 |
         \ set softtabstop=4 |
         \ set shiftwidth=4 |
@@ -600,8 +610,8 @@ augroup END
 augroup Racer
     autocmd!
     autocmd FileType rust nmap <buffer> <leader>g  <Plug>(rust-def)
-    autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
-    autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
-    autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+    " autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+    " autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+    " autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
     autocmd FileType rust nmap <buffer> <leader>k  <Plug>(rust-doc)
 augroup END
