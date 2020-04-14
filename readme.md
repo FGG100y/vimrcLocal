@@ -1,17 +1,7 @@
-update vimrc
+update \_vimrc
 
-suport Rust wiht vim-racer plugin:
+this version of vimrc cannot be compared with the one in my Linux box.
 
-- installation
+but still, it deserved a backup.
 
-1. rustup toolchain add nightly
-
-2. cargo +nightly install racer
-
-- configuration
-
-1. rustup component add rust-src
-
-2. see detail in vimrc 'racer' section
-
-NOTE: code completion using <Ctrl>n the same as python jedi set
+when one have to work on Windows from time to time.
