@@ -1,0 +1,18 @@
+[user]
+	email = 1522009317@qq.com
+	name = FGG100y
+[core]
+	editor = 'D:\\Vim\\vim82\\gvim.exe' -f -i NONE
+[alias]
+    co = checkout
+    cm = commit -m
+    ci = commit -a -m
+    st = status
+    br = branch
+    last = log -1 HEAD
+    hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
+    logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
+    type = cat-file -t
+    dump = cat-file -p
+    unstage = reset HEAD --
+    visual = !gitk
