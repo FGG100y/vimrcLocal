@@ -103,7 +103,19 @@ let mapleader=","		" leader set to be the comma
 
 " use <C-[> instead of <C-c> to change to normal mode
 " <C-c> can do the trick, but it is not what Esc means
-nnoremap <C-[> <Esc>
+" nnoremap <C-[> <Esc>
+
+" back to normal mode
+inoremap jj <Esc>
+
+" -------------------------------
+" WOW, it's almost like in a Tmux
+" -------------------------------
+" back to normal mode in a term
+tnoremap <Esc> <C-w>N
+" <space>bash --> open term in vertical split
+nnoremap <space>b :vert ter bash<cr>
+
 
 " source vimrc
 " nnoremap <leader><leader>s :source ~/_vimrc<cr> :echo "*** vimrc reloaded ***"<cr>
@@ -171,22 +183,20 @@ nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " Explore the file in current path
 " nnoremap EX :Explore<cr>
 
-" back to normal mode
-inoremap jj <Esc>
 
-" python pdb in ipython
-iab idb __import__('pdb').set_trace()
+" python pdb in ipython --> Utilsnip takes care of this
+" iab idb __import__('pdb').set_trace()
+
 " abbrev  %T == %H:%M:%S
 iab dts <c-r>=strftime("%A %m-%d %T %Y")<cr>
 
 " only for C++ Learning 周三 10-30 11:01:36 2019
-iab stdlib #include "../std_lib_facilities.h"<cr>
+" iab stdlib #include "../std_lib_facilities.h"<cr>
 
 " python shebang
 iab #! #!/usr/bin/env python<cr># encoding: utf-8<cr>
 " iab ifmain if __name__ == "__main__":
-"
-"
+
 " #############################
 "  Part-III:  Set vim
 " #############################
@@ -235,6 +245,9 @@ vnoremap <Space> zf
 
 " py_PEP8
 set encoding=utf-8
+
+" terminial needed
+set modifiable
 
 " #############################
 "  Part-IV: colorcolumn groups
