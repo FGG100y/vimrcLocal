@@ -23,12 +23,12 @@ when to compare with multiple git-bash opened to do the work.
    consider install a newer version of vim, such as vim82.
 
 2. ":vert ter bash" to embed a bash shell in vertical split buff, I choose
-   setting the keymap as: "nnoremap <space>b :vert ter bash" to trigger it
+   setting the keymap as: "nnoremap \<space\>b :vert ter bash" to trigger it
 
-3. "nnoremap <Esc> <C-w>N" to back to normal mode in a vim-trem
+3. "nnoremap \<Esc\> \<C-w\>N" to back to normal mode in a vim-trem
 
-4. "<C-w><C-c>" to kill the vim-term job. If not, the terminal still run the
-   job in backend, and when you want to quit the vim, it ask you to deal with
-   it.
+4. "\<C-w\>\<C-c\>" to kill the vim-term job. If not, the terminal still run
+   the job in backend, and when you want to quit the vim, it ask you to deal
+   with it.
 
 5. Learn more with :h ter
