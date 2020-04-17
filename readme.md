@@ -2,7 +2,7 @@
 
 Dev days on Windows while one miss Terminal very much.
 
-Last Modified: 星期五 04-17 15:00:29 2020
+Last Modified: 星期五 04-17 18:02:36 2020
 
 ## Tree command in git-bash
 
@@ -19,13 +19,13 @@ Last Modified: 星期五 04-17 15:00:29 2020
 I like this feature, it's not Tmux in Terminal, but still a great improvement,
 when to compare with multiple git-bash opened to do the work.
 
-1. make sure your vim has +terminal feature, check with :ver in vim, if not,
+1. make sure your vim has "+terminal" feature, check with :ver in vim, if not,
    consider install a newer version of vim, such as vim82.
 
 2. ":vert ter bash" to embed a bash shell in vertical split buff, I choose
    setting the keymap as: "nnoremap \<space\>b :vert ter bash" to trigger it
 
-3. "nnoremap \<Esc\> \<C-w\>N" to back to normal mode in a vim-trem
+3. "nnoremap \<Esc\> \<C-w\>N" to back to normal mode in a vim-term
 
 4. "\<C-w\>\<C-c\>" to kill the vim-term job. If not, the terminal still run
    the job in backend, and when you want to quit the vim, it ask you to deal
