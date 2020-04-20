@@ -292,9 +292,25 @@ endif
 " ----------------------------
 " vim-go
 " ----------------------------
-let g:go_bin_path="c:/Go/bin"
+" let g:go_bin_path="c:/Go/bin"
+let g:go_list_type = "locationlist"
+let g:go_list_type_commands = {"GoBuild": "quickfix"}
+let g:go_list_autoclose = 1
+" using terminal feature
+let g:go_term_enabled = 1
+" let g:go_term_mode = "vsplit"
+let g:go_term_mode = "split"
+let g:go_term_height = 20
+" let g:go_term_width = 30
+" auto:GoFmt
 let g:go_fmt_autosave = 1
-let g:go_mod_fmt_autosave = 0
+
+" stuck with gopls initializing problem
+let g:go_gopls_enabled = 1
+
+
+
+
 " racer
 " ----------------------------
 set hidden
@@ -570,13 +586,12 @@ let g:ale_linters_explicit = 1
 let g:ale_linters = {
 		    \   'python': ['flake8'],
 		    \   'rust': ['cargo'],
-		    \	'go': ['gofmt']
+		    \	'go': ['gobuild', 'gofmt']
 		    \}
 " let g:ale_python_flake8_executable = 'python3'
 let g:ale_fix_on_save = 0
 let g:ale_fixers = {
 \   'python': ['yapf'],
-\   'go': ['gofmt']
 \}
 nmap <F8> <Plug>(ale_fix)
 " ----------------------------
@@ -593,7 +608,7 @@ let g:UltiSnipsExpandTrigger="<leader><Tab>"
 " ----------------------------
 " autocmd groups
 " ----------------------------
-augroup vimrc_autocmds
+augroup filefmt_autocmds
     " autocmd!: Remove all autocommands for the current group to avoid repeation
     autocmd!
     autocmd FileType python,sh,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
@@ -627,4 +642,11 @@ augroup Racer
     " autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
     " autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
     autocmd FileType rust nmap <buffer> <leader>k  <Plug>(rust-doc)
+augroup END
+
+augroup golang
+    au!
+    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <leader>g <Plug>(go-def)
+
 augroup END
