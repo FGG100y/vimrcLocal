@@ -32,3 +32,28 @@ when to compare with multiple git-bash opened to do the work.
    with it.
 
 5. Learn more with :h ter
+
+## Python3 support in [Vim8](https://github.com/vim/vim-win32-installer/releases) on Win10
+
+1. In vim normal mode, :py3 print("Hi") prints 'Hi', you'll be fine. If not,
+   vim will complain something like 'cannot load python3x.dll'. There we go.
+
+2. Edit your vimrc file, add this line:
+    ```bash
+    set pythonthreedll=python3x.dll
+    ```
+Note that the python3x.dll should be the same version python you had installed
+in your system. You can check with:
+    ```bash
+    $ python -V  # your python version
+
+    $ which python # where your python.exe located
+    ```
+
+3. If step2 not working, try add one more line to vimrc:
+    ```bash
+    set pythonthreedll=python3x.dll
+    set pythonthreehome='the/path/to/python3x.exe'
+    ```
+
+4. Note that the gvim-64bit must be paired with python3x-64bit; 32bit likewise
