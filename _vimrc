@@ -4,6 +4,7 @@
 " ===================================
 " TODO:
 "     clean up.
+"     Vundle alternative.
 
 set nocompatible                                " be iMproved
 
@@ -46,15 +47,10 @@ call vundle#begin()
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
     Plugin 'altercation/vim-colors-solarized'   " solarized
     Plugin 'jnurmine/Zenburn'
-    " Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
-    " Plugin 'rosenfeld/conque-term'              " Consoles as buffers
 
     "-------------------=== Snippets support ===--------------------
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'                 " snippets repo
-    " Plugin 'garbas/vim-snipmate'                " Snippets manager
-    " Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
-    " Plugin 'tomtom/tlib_vim'                    " dependencies #2
 
     "-------------------=== Languages support ===-------------------
     Plugin 'tpope/vim-commentary'                 " Comment stuff out
@@ -72,7 +68,6 @@ call vundle#begin()
     Plugin 'dense-analysis/ale'
     Plugin 'fatih/vim-go'
     " Plugin 'supertab'
-    " Plugin 'Valloric/YouCompleteMe'               " Autocomplete plugin
 
     "-------------------=== Code checking= ==-----------------------------
     " Plugin 'python-mode/python-mode'
@@ -139,6 +134,7 @@ nnoremap <space><space>q :lclose<cr>
 nmap <space>p "+gp
 " yank to sys clipboard only in Visual Mode
 vnoremap <space>y "+y
+" yank to register
 
 " Ctrl + j,k,l,h to move around the panes
 nnoremap <C-J> <C-W><C-J>
@@ -168,7 +164,7 @@ nnoremap <space>n :nohlsearch<cr>
 nnoremap <leader><leader>t :%s/\s\+$//
 
 " toggle tagbar
-nnoremap <space>tb :TagbarToggle<CR>
+nnoremap <space><space>b :TagbarToggle<CR>
 nnoremap <space>j :TagbarOpen fj<CR>
 
 " generate tag file, so we can Ctrl-] to goto definitions
@@ -200,6 +196,10 @@ iab #! #!/usr/bin/env python<cr># encoding: utf-8<cr>
 " #############################
 "  Part-III:  Set vim
 " #############################
+" set pythonthreedll="d://PyVirtualenv//py37//python37.dll"
+" set pythonthreehome="d:/PyVirtualenv/py37"
+" py3 support, this setup is a must
+set pythonthreedll=python37.dll
 
 " enable syntax highlight
 syntax enable
@@ -301,14 +301,19 @@ let g:go_term_enabled = 1
 " let g:go_term_mode = "vsplit"
 let g:go_term_mode = "split"
 let g:go_term_height = 20
-" let g:go_term_width = 30
-" auto:GoFmt
 let g:go_fmt_autosave = 1
-
-" stuck with gopls initializing problem
 let g:go_gopls_enabled = 1
+let g:go_def_reuse_buffer = 1
+let g:go_rename_command = 'gopls'
+let g:go_fmt_command = "goimports"
+" let g:go_fmt_fail_silently = 1
+" let g:go_addtags_transform = "camelcase"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
 
-
+let g:go_auto_type_info = 1
 
 
 " racer
@@ -356,12 +361,16 @@ let g:jedi#completions_command = "<C-N>"
 "1" to pop-up in the buffer;
 "2" to vim's command line aligned with func-call
 let g:jedi#show_call_signatures = "0"
-let g:jedi#goto_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>j"
-" let g:jedi#goto_assignments_command = "<space>="
-let g:jedi#usages_command = "<leader>n"
+let g:jedi#usages_command = "<leader>m"
 let g:jedi#rename_command = "<leader>r"
+let g:jedi#goto_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
 let g:jedi#documentation_command = "K"
+" VIM-splits
+let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#popup_select_first = 1
+
+
 
 " ----------------------------
 " Python-Syntax
@@ -611,14 +620,14 @@ let g:UltiSnipsExpandTrigger="<leader><Tab>"
 augroup filefmt_autocmds
     " autocmd!: Remove all autocommands for the current group to avoid repeation
     autocmd!
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang set nowrap
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang set colorcolumn=79
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown match Excess /\%80v.*/
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown set nowrap
+    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown set colorcolumn=79
     " auto begin in newline when exceed 79 chars
     autocmd FileType * setlocal textwidth=79 formatoptions+=t
     autocmd FileType c,cpp,rust,rs,go,golang setlocal comments-=:// comments+=f://
-    autocmd BufNewFile,BufRead *.py,*.cpp,*.c,*.rs,*.go
+    autocmd BufNewFile,BufRead *.py,*.cpp,*.c,*.rs,*.go,*.md
         \ set tabstop=4 |
         \ set softtabstop=4 |
         \ set shiftwidth=4 |
@@ -646,7 +655,15 @@ augroup END
 
 augroup golang
     au!
-    au FileType go nmap <leader>r <Plug>(go-run)
-    au FileType go nmap <leader>g <Plug>(go-def)
+    au FileType go nmap <space>r <Plug>(go-run)
+    au FileType go nmap <space>t <Plug>(go-test)
+    au FileType go nmap <space>b  <Plug>(go-build)
+    au FileType go nmap <Leader>i <Plug>(go-info)
+    au FileType go nmap <leader>g <Plug>(go-def-vertical)
+    au FileType go nmap <leader>r <Plug>(go-rename)
+    au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+    au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+    au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+    au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 augroup END
