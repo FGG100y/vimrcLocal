@@ -57,3 +57,20 @@ in your system. You can check with:
     ```
 
 4. Note that the gvim-64bit must be paired with python3x-64bit; 32bit likewise
+
+## Curl:(6) Could not resolve host: raw.githubusercontent.com Problem
+A: It's mainly because of the wrong IP of raw.githubusercontent.com.
+
+Solution:
+
+1. Go to [ipaddress.com](https://www.ipaddress.com/)
+
+2. Loopup the ip of "raw.githubusercontent.com", my searching resault is
+   "199.232.26.133"
+
+3. Edit/modify your machine's hosts file. This file resides in
+   C:windows/system32/drivers/etc/ for windows or /etc for linux.
+
+4. Append "199.232.68.133 raw.githubusercontent.com" to the hosts file.
+
+5. It should work now. If not, keep searching.
