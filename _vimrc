@@ -62,7 +62,8 @@ call vundle#begin()
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'scrooloose/nerdcommenter' 		  " comment things out
     Plugin 'hdima/Python-Syntax' 		  " syntax highlight for python
-    Plugin 'davidhalter/jedi-vim'
+    Plugin 'python-mode/python-mode'
+    " Plugin 'davidhalter/jedi-vim'
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
     Plugin 'dense-analysis/ale'
@@ -70,7 +71,6 @@ call vundle#begin()
     " Plugin 'supertab'
 
     "-------------------=== Code checking= ==-----------------------------
-    " Plugin 'python-mode/python-mode'
     " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
 
     " other plugins
@@ -289,6 +289,35 @@ endif
 " #############################
 " Part-V: plugin setting groups
 " #############################
+" ----------------------------
+" pymode
+" ----------------------------
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_docstrings = g:pymode_syntax_all
+let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
+let g:pymode_syntax_builtin_types = g:pymode_syntax_all
+let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
+
+let g:pymode_run = 1
+let g:pymode_python = 'python3'
+let g:pymode_run_bind = '<Space>r'
+let g:pymode_quickfix_minheight = 3
+let g:pymode_quickfix_maxheight = 10
+
+let g:pymode_lint = 1
+let g:pymode_lint_on_write = 1
+let g:pymode_lint_checkers = ['pyflakes', 'pep8']
+let g:pymode_rope = 1
+let g:pymode_rope_completion = 1
+let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_regenerate_on_write = 0
+let g:pymode_rope_completion_bind = '<C>n'
+let g:pymode_rope_goto_definition_cmd = 'vnew'
+let g:pymode_rope_goto_definition_bind = '<leader>g'
+let g:pymode_rope_rename_bind = '<leader>r'
+let g:pymode_rope_rename_module_bind = '<leader>m'
+
 " ----------------------------
 " vim-go
 " ----------------------------
@@ -603,12 +632,13 @@ let g:ale_fixers = {
 \   'python': ['yapf'],
 \}
 nmap <F8> <Plug>(ale_fix)
+
 " ----------------------------
-" snip settings
+" Utsnip settings
 " ----------------------------
 " let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSinpsUsePythonVersion = 3
+let g:UltiSinpsUsePythonVersion = 3
 let g:UltiSnipsExpandTrigger="<leader><Tab>"
 " let g:UltiSnipsJumpForwardTrigger="<c-j>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
