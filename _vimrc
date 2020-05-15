@@ -36,8 +36,6 @@ call vundle#begin()
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     Plugin 'easymotion/vim-easymotion'
     Plugin 'Vimjas/vim-python-pep8-indent'
-    " Plugin 'easytags.vim'
-    " Plugin 'Yggdroot/LeaderF'                   " locating files,buffers,mrus,ctags,gtags...
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
 
     "-------------------=== Other ===-------------------------------
@@ -69,6 +67,7 @@ call vundle#begin()
     Plugin 'dense-analysis/ale'
     Plugin 'fatih/vim-go'
     " Plugin 'supertab'
+    Plugin 'Valloric/YouCompleteMe'
 
     "-------------------=== Code checking= ==-----------------------------
     " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
@@ -101,7 +100,7 @@ let mapleader=","		" leader set to be the comma
 " nnoremap <C-[> <Esc>
 
 " back to normal mode
-inoremap jj <Esc>
+inoremap jk <Esc>
 
 " -------------------------------
 " WOW, it's almost like in a Tmux
@@ -125,9 +124,9 @@ nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
 nnoremap <space>c :Gcommit<cr>
 nnoremap <leader>q :q<cr>
-" close quickfix window
-nnoremap <space>q :cclose<cr>
-nnoremap <space><space>q :lclose<cr>
+" close location/quickfix window
+nnoremap <space>q :lclose<cr>
+nnoremap <space><space>q :cclose<cr>
 
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
@@ -257,11 +256,10 @@ set modifiable
 syntax on
 syntax enable
 set background=dark
+colorscheme zenburn                       " backup colorscheme
 if has('gui_running')
     " GUI setting
-    colorscheme zenburn                       " backup colorscheme
     set guifont=Lucida_Console:h9
-    " set guifont=Lucida_Console:h10            " some other fonts
     " au GUIEnter * simalt ~x                   " full screen when initiate gvim
     " gui no toolbar
     set guioptions-=T
@@ -269,12 +267,9 @@ if has('gui_running')
     set guioptions-=L
     set guioptions-=r
     set guioptions-=b
-else
-    " solarized8: true-color enabled terminal
     " colorscheme solarized8_dark
     " colorscheme solarized8_dark_high
     " colorscheme solarized8_dark_flat
-    colorscheme zenburn
 endif
 
 " gvim & gitgutter error headling
@@ -290,6 +285,35 @@ endif
 " Part-V: plugin setting groups
 " #############################
 " ----------------------------
+" ycm-core
+" ----------------------------
+" 补全功能在注释中有效
+let g:ycm_complete_in_comments = 1
+" 在注释和字符串中获取标识符
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" show the full function prototype and overload
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+" 禁止缓存匹配项，每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 语法关键字补全
+let g:ycm_seed_indentifiers_with_syntax=1
+" 从下往上选择补全选项
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+" 显示详细诊断信息
+let g:ycm_key_detailed_diagnostics = '<space>k'
+" This command tries to perform the "most sensible" GoTo operation it can.
+nnoremap <leader>g :YcmCompleter GoTo<CR>
+" Looks up the symbol under the cursor and jumps to its declaration.
+nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+" Looks up the symbol under the cursor and jumps to its definition.
+nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+" Displays the preview window populated with quick info about the identifier under the cursor.
+nnoremap <leader>k :YcmCompleter GetDoc<CR>
+" Echos the type of the variable or method under the cursor, and where it differs, the derived type.
+nnoremap <leader>kt :YcmCompleter GetType<CR>
+
+" ----------------------------
 " pymode
 " ----------------------------
 let g:pymode_syntax = 1
@@ -299,24 +323,24 @@ let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
 let g:pymode_syntax_builtin_types = g:pymode_syntax_all
 let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
 
-let g:pymode_run = 1
-let g:pymode_python = 'python3'
-let g:pymode_run_bind = '<Space>r'
-let g:pymode_quickfix_minheight = 3
-let g:pymode_quickfix_maxheight = 10
-
-let g:pymode_lint = 1
-let g:pymode_lint_on_write = 1
-let g:pymode_lint_checkers = ['pyflakes', 'pep8']
-let g:pymode_rope = 1
-let g:pymode_rope_completion = 1
-let g:pymode_rope_complete_on_dot = 1
-let g:pymode_rope_regenerate_on_write = 0
-let g:pymode_rope_completion_bind = '<C>n'
-let g:pymode_rope_goto_definition_cmd = 'vnew'
-let g:pymode_rope_goto_definition_bind = '<leader>g'
-let g:pymode_rope_rename_bind = '<leader>r'
-let g:pymode_rope_rename_module_bind = '<leader>m'
+let g:pymode_run = 0
+" let g:pymode_python = 'python3'
+" let g:pymode_run_bind = '<Space>r'
+" let g:pymode_quickfix_minheight = 3
+" let g:pymode_quickfix_maxheight = 10
+"
+let g:pymode_lint = 0
+" let g:pymode_lint_on_write = 1
+" let g:pymode_lint_checkers = ['pyflakes', 'pep8']
+" let g:pymode_rope = 1
+" let g:pymode_rope_completion = 0
+" let g:pymode_rope_complete_on_dot = 0
+" let g:pymode_rope_regenerate_on_write = 0
+" " let g:pymode_rope_completion_bind = '<C>n'
+" let g:pymode_rope_goto_definition_cmd = 'vnew'
+" let g:pymode_rope_goto_definition_bind = '<leader>g'
+" let g:pymode_rope_rename_bind = '<leader>r'
+" let g:pymode_rope_rename_module_bind = '<leader>m'
 
 " ----------------------------
 " vim-go
@@ -626,7 +650,6 @@ let g:ale_linters = {
 		    \   'rust': ['cargo'],
 		    \	'go': ['gobuild', 'gofmt']
 		    \}
-" let g:ale_python_flake8_executable = 'python3'
 let g:ale_fix_on_save = 0
 let g:ale_fixers = {
 \   'python': ['yapf'],
