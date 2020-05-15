@@ -118,7 +118,7 @@ nnoremap <space>b :vert ter bash<cr>
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
 nnoremap <space>v :sp $MYVIMRC<cr>
 " vertical split help
-nnoremap <space>h :vert help<cr>
+nnoremap <space>h :vert help
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
@@ -323,24 +323,24 @@ let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
 let g:pymode_syntax_builtin_types = g:pymode_syntax_all
 let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
 
-let g:pymode_run = 0
-" let g:pymode_python = 'python3'
-" let g:pymode_run_bind = '<Space>r'
-" let g:pymode_quickfix_minheight = 3
-" let g:pymode_quickfix_maxheight = 10
+let g:pymode_run = 1
+let g:pymode_python = 'python3'
+let g:pymode_run_bind = '<Space>r'
+let g:pymode_quickfix_minheight = 3
+let g:pymode_quickfix_maxheight = 10
 "
 let g:pymode_lint = 0
 " let g:pymode_lint_on_write = 1
 " let g:pymode_lint_checkers = ['pyflakes', 'pep8']
-" let g:pymode_rope = 1
-" let g:pymode_rope_completion = 0
-" let g:pymode_rope_complete_on_dot = 0
-" let g:pymode_rope_regenerate_on_write = 0
+let g:pymode_rope = 1
+let g:pymode_rope_completion = 0
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_rope_regenerate_on_write = 0
 " " let g:pymode_rope_completion_bind = '<C>n'
 " let g:pymode_rope_goto_definition_cmd = 'vnew'
 " let g:pymode_rope_goto_definition_bind = '<leader>g'
-" let g:pymode_rope_rename_bind = '<leader>r'
-" let g:pymode_rope_rename_module_bind = '<leader>m'
+let g:pymode_rope_rename_bind = '<leader>r'
+let g:pymode_rope_rename_module_bind = '<leader>m'
 
 " ----------------------------
 " vim-go
