@@ -108,7 +108,7 @@ inoremap jk <Esc>
 " back to normal mode in a term
 tnoremap <Esc> <C-w>N
 " <space>bash --> open term in vertical split
-nnoremap <space>b :vert ter bash<cr>
+nnoremap <space>b :vert ter<cr>
 
 
 " source vimrc
@@ -124,9 +124,11 @@ nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
 nnoremap <space>c :Gcommit<cr>
 nnoremap <leader>q :q<cr>
-" close location/quickfix window
+nnoremap <leader>Q :q!<cr>
+" close location/quickfix/preview windows
 nnoremap <space>q :lclose<cr>
 nnoremap <space><space>q :cclose<cr>
+nnoremap <space><space>p :pclose<cr>
 
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
@@ -172,12 +174,7 @@ nnoremap <f9> :!ctags -R<cr>
 " windows/panes resize
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
-" nmap <Space>k :vertical resize +3<cr>
 " nmap <Space>l :resize +5<cr>
-
-" Explore the file in current path
-" nnoremap EX :Explore<cr>
-
 
 " python pdb in ipython --> Utilsnip takes care of this
 " iab idb __import__('pdb').set_trace()
@@ -274,11 +271,11 @@ endif
 
 " gvim & gitgutter error headling
 if has("gui_running")
-    " set shell=/usr/bin/bash
+    " set shell='D:\Git\bin\bash.exe'
     " set shell=cmd solved the E484 problem but gitgutter faided
     set shell=cmd
-    set shellcmdflag=/c
-    set shellxquote=(
+    " set shellcmdflag=/c
+    " set shellxquote=(
 endif
 
 " #############################
@@ -287,6 +284,8 @@ endif
 " ----------------------------
 " ycm-core
 " ----------------------------
+" 允许vim加载.ycm_confirm_extra_conf.py文件，不再提示
+let g:ycm_confirm_extra_conf = 0
 " 补全功能在注释中有效
 let g:ycm_complete_in_comments = 1
 " 在注释和字符串中获取标识符
@@ -391,7 +390,7 @@ let g:ale_rust_cargo_use_check = 1
 " ----------------------------
 " gitgutter
 " ----------------------------
-let g:gitgutter_git_executable = 'd:/Git/bin/git.exe'
+let g:gitgutter_git_executable = 'd:\Git\bin\git.exe'
 " let g:gitgutter_max_signs = 500  " default value
 let g:gitgutter_max_signs = 100  " default value
 nmap ]h <Plug>(GitGutterNextHunk)
