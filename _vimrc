@@ -61,26 +61,29 @@ call vundle#begin()
     Plugin 'scrooloose/nerdcommenter' 		  " comment things out
     Plugin 'hdima/Python-Syntax' 		  " syntax highlight for python
     Plugin 'python-mode/python-mode'
-    " Plugin 'davidhalter/jedi-vim'
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
     Plugin 'dense-analysis/ale'
     Plugin 'fatih/vim-go'
-    " Plugin 'supertab'
     Plugin 'Valloric/YouCompleteMe'
+
+    " local installation, should be a git reop itself the plugin dir
+    Plugin 'file:///User/gddst/.vim/bundle/vim-squaremotion'
+    " Plugin 'file:///d/JupyterNotebook/fmhPlayground/Practical_Vim/squaremotion'
+    " local installation with the 'pinned' option
+    " Plugin 'vim-squaremotion', {'pinned': 1}
 
     "-------------------=== Code checking= ==-----------------------------
     " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
 
     " other plugins
     " =============
+    " Plugin 'davidhalter/jedi-vim'
     " Plugin 'altercation/vim-colors-solarized'
     " Plugin 'itchyny/lightline.vim'
     " Plugin 'octol/vim-cpp-enhanced-highlight'
     " Plugin 'suan/vim-instant-markdown'
     " Plugin 'derekwyatt/vim-fswitch'
-
-    " local installation using the ['file://'+'absolute path'] protocol
 call vundle#end()            " required
 filetype on
 filetype plugin on
@@ -95,10 +98,10 @@ let mapleader=","		" leader set to be the comma
 " groups of <leader> + ?  | Short Cut
 " -----------------------------------
 
-" use <C-[> instead of <C-c> to change to normal mode
-" <C-c> can do the trick, but it is not what Esc means
-" nnoremap <C-[> <Esc>
+" viml test .vim
+nnoremap <leader>s :source %<cr>
 
+" <C-c> can do the trick, but it is not what Esc means
 " back to normal mode
 inoremap jk <Esc>
 
@@ -181,6 +184,10 @@ nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
 " abbrev  %T == %H:%M:%S
 iab dts <c-r>=strftime("%A %m-%d %T %Y")<cr>
+
+" ploting with Hanzi
+" 用来正常显示中文字符, 用来正常显示正负号
+iab pwhz plt.rcParams['font.sans-serif'] = ['SimHei']<cr>plt.rcParams['axes.unicode_minus'] = False
 
 " only for C++ Learning 周三 10-30 11:01:36 2019
 " iab stdlib #include "../std_lib_facilities.h"<cr>
@@ -274,7 +281,7 @@ if has("gui_running")
     " set shell='D:\Git\bin\bash.exe'
     " set shell=cmd solved the E484 problem but gitgutter faided
     set shell=cmd
-    " set shellcmdflag=/c
+    set shellcmdflag=/c
     " set shellxquote=(
 endif
 
@@ -672,14 +679,15 @@ let g:UltiSnipsExpandTrigger="<leader><Tab>"
 augroup filefmt_autocmds
     " autocmd!: Remove all autocommands for the current group to avoid repeation
     autocmd!
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown match Excess /\%80v.*/
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown set nowrap
-    autocmd FileType python,sh,c,cpp,rust,rs,go,golang,md,markdown set colorcolumn=79
+    autocmd FileType python,sh,c,cpp,rust,rs,go,vim,md,markdown highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,sh,c,cpp,rust,rs,go,vim,md,markdown match Excess /\%80v.*/
+    autocmd FileType python,sh,c,cpp,rust,rs,go,vim,md,markdown set nowrap
+    autocmd FileType python,sh,c,cpp,rust,rs,go,vim,md,markdown set colorcolumn=79
     " auto begin in newline when exceed 79 chars
     autocmd FileType * setlocal textwidth=79 formatoptions+=t
-    autocmd FileType c,cpp,rust,rs,go,golang setlocal comments-=:// comments+=f://
-    autocmd BufNewFile,BufRead *.py,*.cpp,*.c,*.rs,*.go,*.md
+    autocmd FileType c,cpp,go,rs setlocal comments-=:// comments+=f://
+    autocmd FileType vim setlocal formatoptions-=cro
+    autocmd BufNewFile,BufRead *.py,*.cpp,*.c,*.rs,*.go,*.md,*.vim
         \ set tabstop=4 |
         \ set softtabstop=4 |
         \ set shiftwidth=4 |
